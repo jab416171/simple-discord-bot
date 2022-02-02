@@ -5,7 +5,7 @@
 
 3. You can simply run the Dockerfile and your bot will start up, with voice support
 
-4. If you don't want to use docker, you should probably create a virtualenv first with `python -m venv simplebot`, and then activate it with `source simplebot/bin/activate`. Then run `pip3 install -r requirements.txt` in the repository's root directory to get the necessary libraries.
+4. If you don't want to use docker, you should probably create a virtualenv first with `python -m venv simplebot-venv`, and then activate it with `source simplebot-venv/bin/activate`. Then run `pip3 install -r requirements.txt` in the repository's root directory to get the necessary libraries.
 
     * Note that python-Levenshtein requires your system to have a C++ compiler (Visual Studio C++ compiler for Windows or g++ for Linux).
     * Note that for voice support on linux you will need libffi, libnacl, and python3-dev
