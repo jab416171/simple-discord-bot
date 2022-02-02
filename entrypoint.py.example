@@ -1,0 +1,5 @@
+#!/usr/bin/env python
+import simplebot
+
+DISCORD_TOKEN = 'mydiscordtoken'
+simplebot.run(discord_token=DISCORD_TOKEN)
