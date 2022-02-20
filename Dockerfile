@@ -6,4 +6,6 @@ copy requirements.txt /
 run pip3 install -r /requirements.txt
 copy . /
 ENV PYTHONPATH="/simplebot:${PYTHONPATH}"
-entrypoint ["/entrypoint.py"]
+ARG token=
+ENV TOKEN="${token}"
+entrypoint ["python", "/simplebot/run.py"]
