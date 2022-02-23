@@ -28,7 +28,15 @@ class ConsoleCog(commands.Cog):
     async def on_ready(self):
         """ Print basic bot info and server list and sets status on startup. """
         print(self.startup_banner)
-        print(f'\nBot is online in {len(self.bot.guilds)} servers\n')
+        print(f'\nBot is online in {len(self.bot.guilds)} servers with latency {self.bot.latency * 1000:,.0f}ms as of {datetime.datetime.now()}\n')
+
+    @commands.Cog.listener()
+    async def on_interaction(self, ctx):
+        """ Print command calls to the console. """
+        default = "Other"
+        if "component_type" in ctx.data:
+            default = "Button"
+        print(f'{self.timestamp()}\n    Command: {ctx.data.get("name", default)}')
 
     @commands.Cog.listener()
     async def on_command(self, ctx):
