@@ -31,6 +31,20 @@ class ConsoleCog(commands.Cog):
         print(f'\nBot is online in {len(self.bot.guilds)} servers\n')
 
     @commands.Cog.listener()
+    async def on_interaction(self, ctx):
+        """ Print command calls to the console. """
+        default = "Other"
+        if "component_type" in ctx.data:
+            default = "Button"
+        m = f'{self.timestamp()}\n    Command: {ctx.data.get("name", default)}'
+        if ctx.user:
+            m += f"\n    Sender:  {ctx.user}"
+        if ctx.guild:
+            m += f"\n    Guild:   {ctx.guild}"
+        m += "\n"
+        print(m)
+
+    @commands.Cog.listener()
     async def on_command(self, ctx):
         """ Print command calls to the console. """
         print(f'{self.timestamp()}\n    Command: {ctx.command}\n    Sender:  {ctx.author}\n    Guild:   {ctx.guild}\n')

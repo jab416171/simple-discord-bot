@@ -1,4 +1,6 @@
 __pycache__/
 *.pyc
 entrypoint.py
-simplebot-venv
+.vscode
+simplebot-venv/
+.env*

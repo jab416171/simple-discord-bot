@@ -1,2 +1,3 @@
-git+https://github.com/Pycord-Development/pycord.git#egg=py-cord[voice]
+py-cord==2.0.0b4
+#git+https://github.com/Pycord-Development/pycord.git#egg=py-cord[voice]
 python-Levenshtein>=0.12.0

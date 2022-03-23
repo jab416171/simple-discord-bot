@@ -8,7 +8,7 @@ BOT_COLOR = 0x0D61B7
 
 def run(discord_token):
     """ Create the bot, add the cogs and run it. """
-    bot = commands.Bot(command_prefix=('!'), case_insensitive=True)
+    bot = commands.Bot(command_prefix=('!'), case_insensitive=True, debug_guilds=[881207955029110855], intents=discord.Intents.all())
     bot.add_cog(cogs.ConsoleCog(bot))
     bot.add_cog(cogs.HelpCog(bot, BOT_COLOR))
     bot.add_cog(cogs.SimpleCog(bot))

@@ -1,6 +1,7 @@
 import discord
 import random
 import time
+import asyncio
 from discord.ext import commands
 from discord.commands import Option
 
@@ -12,18 +13,22 @@ class SimpleCog(commands.Cog):
     async def invite(self, ctx):
         await ctx.send(f"Invite link is https://discord.com/api/oauth2/authorize?client_id={self.bot.user.id}&permissions=8&scope=bot%20applications.commands")
 
-    @commands.slash_command(name="roll")
-    async def roll(self, ctx, sides: Option(int, "Number of sides on the die", default=6)):
+    @commands.slash_command(name="roll", name_localizations={"fr": "roll_fr"}, description_localizations={"fr": "roll in French"})
+    async def roll(self, ctx, sides: Option(int, "Number of sides on the die", default=6, name_localizations={"fr": "sides_fr"}, description_localizations={"fr": "sides in French"})):
         """roll a die"""
+        try:
+            print(ctx.interaction.locale)
+        except:
+            pass
         number = random.randint(1, sides)
         response = await ctx.respond("rolling ...")
-        time.sleep(0.2)
+        await asyncio.sleep(0.2)
         await response.edit_original_message(content="rolling 0..")
-        time.sleep(0.2)
+        await asyncio.sleep(0.2)
         await response.edit_original_message(content="rolling .0.")
-        time.sleep(0.2)
+        await asyncio.sleep(0.2)
         await response.edit_original_message(content="rolling ..0")
-        time.sleep(0.2)
+        await asyncio.sleep(0.2)
         await response.edit_original_message(content=f"You rolled a {number}")
 
     @commands.slash_command(name="flip")
@@ -31,12 +36,33 @@ class SimpleCog(commands.Cog):
         """flip a coin"""
         number = random.randint(1, 2)
         response = await ctx.respond("flipping -")
-        time.sleep(0.2)
+        await asyncio.sleep(0.2)
         await response.edit_original_message(content="flipping |")
-        time.sleep(0.2)
+        await asyncio.sleep(0.2)
         await response.edit_original_message(content="flipping -")
-        time.sleep(0.2)
+        await asyncio.sleep(0.2)
         await response.edit_original_message(content="flipping |")
-        time.sleep(0.2)
+        await asyncio.sleep(0.2)
         number = "heads" if number == 1 else "tails"
         await response.edit_original_message(content=f"It's {number}")
+
+    @commands.slash_command(name="source")
+    async def source(self, ctx):
+        """Shows the bot's source code"""
+        embed=discord.Embed(title="Source code", description="My source code can be found here: [Link](https://github.com/jab416171/simple-discord-bot)")
+        await ctx.respond(embed=embed, ephemeral=True)
+
+    @commands.slash_command(name="about")
+    async def about(self, ctx):
+        """Tells you a bit about the bot"""
+        embed=discord.Embed(title="About Me", description="I am a simple discord bot, written to showcase some features of pycord.")
+        await ctx.respond(embed=embed, ephemeral=True)
+
+    @commands.slash_command(name="status")
+    async def status(self, ctx):
+        """Checks your user status"""
+        online = str(ctx.author.raw_status)
+        if ctx.author.is_on_mobile():
+            await ctx.respond(f"You are on mobile and you are {online}!")
+        else:
+            await ctx.respond(f"You are not on mobile and you are {online}!")
