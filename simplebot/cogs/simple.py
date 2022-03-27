@@ -1,9 +1,8 @@
 import discord
 import random
-import time
 import asyncio
 from discord.ext import commands
-from discord.commands import Option
+from discord.commands import Option, slash_command
 
 class SimpleCog(commands.Cog):
     def __init__(self, bot):
@@ -13,7 +12,7 @@ class SimpleCog(commands.Cog):
     async def invite(self, ctx):
         await ctx.send(f"Invite link is https://discord.com/api/oauth2/authorize?client_id={self.bot.user.id}&permissions=8&scope=bot%20applications.commands")
 
-    @commands.slash_command(name="roll", name_localizations={"fr": "roll_fr"}, description_localizations={"fr": "roll in French"})
+    @slash_command(name="roll", name_localizations={"fr": "roll_fr"}, description_localizations={"fr": "roll in French"})
     async def roll(self, ctx, sides: Option(int, "Number of sides on the die", default=6, name_localizations={"fr": "sides_fr"}, description_localizations={"fr": "sides in French"})):
         """roll a die"""
         try:
@@ -31,7 +30,7 @@ class SimpleCog(commands.Cog):
         await asyncio.sleep(0.2)
         await response.edit_original_message(content=f"You rolled a {number}")
 
-    @commands.slash_command(name="flip")
+    @slash_command(name="flip")
     async def flip(self, ctx):
         """flip a coin"""
         number = random.randint(1, 2)
@@ -46,19 +45,19 @@ class SimpleCog(commands.Cog):
         number = "heads" if number == 1 else "tails"
         await response.edit_original_message(content=f"It's {number}")
 
-    @commands.slash_command(name="source")
+    @slash_command(name="source")
     async def source(self, ctx):
         """Shows the bot's source code"""
         embed=discord.Embed(title="Source code", description="My source code can be found here: [Link](https://github.com/jab416171/simple-discord-bot)")
         await ctx.respond(embed=embed, ephemeral=True)
 
-    @commands.slash_command(name="about")
+    @slash_command(name="about")
     async def about(self, ctx):
         """Tells you a bit about the bot"""
         embed=discord.Embed(title="About Me", description="I am a simple discord bot, written to showcase some features of pycord.")
         await ctx.respond(embed=embed, ephemeral=True)
 
-    @commands.slash_command(name="status")
+    @slash_command(name="status")
     async def status(self, ctx):
         """Checks your user status"""
         online = str(ctx.author.raw_status)
@@ -66,3 +65,7 @@ class SimpleCog(commands.Cog):
             await ctx.respond(f"You are on mobile and you are {online}!")
         else:
             await ctx.respond(f"You are not on mobile and you are {online}!")
+
+
+def setup(bot):
+    bot.add_cog(SimpleCog(bot))
