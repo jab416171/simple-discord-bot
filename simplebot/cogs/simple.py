@@ -12,8 +12,8 @@ class SimpleCog(commands.Cog):
     async def invite(self, ctx):
         await ctx.send(f"Invite link is https://discord.com/api/oauth2/authorize?client_id={self.bot.user.id}&permissions=8&scope=bot%20applications.commands")
 
-    @slash_command(name="roll", name_localizations={"fr": "roll_fr"}, description_localizations={"fr": "roll in French"})
-    async def roll(self, ctx: discord.ApplicationContext, sides: Option(int, "Number of sides on the die", default=6, name_localizations={"fr": "sides_fr"}, description_localizations={"fr": "sides in French"})):
+    @slash_command(name="roll", name_localizations={"fr": "roll_fr", "zh-CN": "滚动", "en-GB": "roll_gb"}, description_localizations={"fr": "roll in French"})
+    async def roll(self, ctx, sides: Option(int, "Number of sides on the die", default=6, name_localizations={"fr": "sides_fr", "en-GB": "sides_gb", "zh-CN": "sides_cn"}, description_localizations={"fr": "sides in French"})):
         """roll a die"""
         try:
             print(ctx.interaction.locale)
@@ -65,7 +65,6 @@ class SimpleCog(commands.Cog):
             await ctx.respond(f"You are on mobile and you are {online}!")
         else:
             await ctx.respond(f"You are not on mobile and you are {online}!")
-
 
 def setup(bot):
     bot.add_cog(SimpleCog(bot))

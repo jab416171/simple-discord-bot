@@ -9,14 +9,13 @@ import Levenshtein as lev
 class HelpCog(commands.Cog):
     """ Handles everything related to the help menu. """
 
-    def __init__(self, bot, color):
+    def __init__(self, bot):
         """ Set attributes and remove default help command. """
         self.bot = bot
-        self.color = color
         self.bot.remove_command('help')
 
     def help_embed(self, title):
-        embed = discord.Embed(title=title, color=self.color)
+        embed = discord.Embed(title=title)
         prefix = self.bot.command_prefix
         prefix = prefix[0] if prefix is not str else prefix
 
@@ -64,7 +63,7 @@ class HelpCog(commands.Cog):
             else:
                 embed_title += f' Use `{prefix}help` for a list of commands'
 
-            embed = discord.Embed(title=embed_title, color=self.color)
+            embed = discord.Embed(title=embed_title)
             await ctx.send(embed=embed)
 
     @commands.command(brief='Display the help menu')  # TODO: Add 'or details of the specified command'
