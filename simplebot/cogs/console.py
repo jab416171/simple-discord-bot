@@ -58,3 +58,7 @@ class ConsoleCog(commands.Cog):
     async def on_guild_remove(self, guild):
         """ Print guild removes to the console. """
         print(f'{self.timestamp()}\n    Bot has been removed from guild: {guild}\n')
+
+
+def setup(bot):
+    bot.add_cog(ConsoleCog(bot))

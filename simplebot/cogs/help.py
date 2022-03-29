@@ -76,3 +76,7 @@ class HelpCog(commands.Cog):
             await ctx.message.delete()
         except:
             pass
+
+
+def setup(bot):
+    bot.add_cog(HelpCog(bot))
