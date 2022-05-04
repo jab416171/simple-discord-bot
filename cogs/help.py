@@ -1,5 +1,3 @@
-# help.py
-
 import traceback
 import sys
 import discord
