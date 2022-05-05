@@ -1,3 +1,6 @@
-py-cord==2.0.0b5
-#git+https://github.com/Pycord-Development/pycord.git#egg=py-cord[voice]
-python-Levenshtein>=0.12.0
+# py-cord==2.0.0b7
+git+https://github.com/Pycord-Development/pycord.git#egg=py-cord[voice]
+# git+https://github.com/Pycord-Development/pycord.git@permissions-v2#egg=py-cord[voice]
+# git+https://github.com/jab416171/pycord.git#egg=py-cord[voice]
+# git+https://github.com/krittick/pycord.git@pages-patch-2#egg=py-cord[voice]
+jishaku==2.3.2

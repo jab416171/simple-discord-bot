@@ -4,7 +4,6 @@ import traceback
 import sys
 import discord
 from discord.ext import commands
-import Levenshtein as lev
 
 class HelpCog(commands.Cog):
     """ Handles everything related to the help menu. """
@@ -46,22 +45,15 @@ class HelpCog(commands.Cog):
         print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
         if type(error) is commands.CommandNotFound:
-            # Get Levenshtein distance from commands
             in_cmd = ctx.invoked_with
             bot_cmds = list(self.bot.commands)
-            lev_dists = [lev.distance(in_cmd, str(cmd)) / max(len(in_cmd), len(str(cmd))) for cmd in bot_cmds]
-            lev_min = min(lev_dists)
 
             # Prep help message title
             embed_title = f'**```{ctx.message.content}```** is not valid!'
             prefix = self.bot.command_prefix
             prefix = prefix[0] if prefix is not str else prefix
 
-            # Make suggestion if lowest Levenshtein distance is under threshold
-            if lev_min <= 0.5:
-                embed_title += f' Did you mean `{prefix}{bot_cmds[lev_dists.index(lev_min)]}`?'
-            else:
-                embed_title += f' Use `{prefix}help` for a list of commands'
+            embed_title += f' Use `{prefix}help` for a list of commands'
 
             embed = discord.Embed(title=embed_title)
             await ctx.send(embed=embed)
