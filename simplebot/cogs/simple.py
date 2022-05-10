@@ -2,9 +2,9 @@ import discord
 import random
 import asyncio
 import os
-from discord.ext import commands
+from discord.ext import commands, pages
 from discord.commands import Option, slash_command
-from discord.ext import pages
+from discord.ui import InputText
 
 class SimpleCog(commands.Cog):
     def __init__(self, bot):
