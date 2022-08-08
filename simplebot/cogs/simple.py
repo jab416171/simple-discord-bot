@@ -1,7 +1,7 @@
 import discord
 import random
 import asyncio
-import os
+import re
 from discord.ext import commands, pages
 from discord.commands import Option, slash_command
 from discord.ui import InputText
@@ -9,6 +9,7 @@ from discord.ui import InputText
 class SimpleCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.message_url = re.compile("https://.*?discord.com/channels/(\d+)/(\d+)/(\d+)")
 
     @commands.command(brief='Display invite link')
     async def invite(self, ctx):
@@ -110,8 +111,6 @@ class SimpleCog(commands.Cog):
     @commands.slash_command(name="poll")
     async def poll(self, ctx, question: Option(str), option1: Option(str), option2: Option(str, required=False), option3: Option(str, required=False), option4: Option(str, required=False), option5: Option(str, required=False), option6: Option(str, required=False), option7: Option(str, required=False), option8: Option(str, required=False), option9: Option(str, required=False), option10: Option(str, required=False)):
         """Creates a poll with reactions for each question"""
-        if not await check_access(ctx, "/poll"):
-            return
         options = [option1, option2, option3, option4, option5, option6, option7, option8, option9, option10]
         numbers = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"]
         new_options = []
@@ -175,6 +174,26 @@ class SimpleCog(commands.Cog):
         uses = invite.uses
         await ctx.respond(f"""Invite is for {name}
     Members: {member_count}, online: {online_count}, uses {uses}/{max_uses}, invite expires at {expiration}""")
+
+    @commands.slash_command(name="escape")
+    async def escape(self, ctx, message: Option(str)):
+        """Escapes the linked message, showing the raw markdown"""
+        matches = re.findall(self.message_url, message)
+        for match in matches:
+            guild_id = int(match[0])
+            channel_id = int(match[1])
+            message_id = int(match[2])
+            if ctx.guild.id != guild_id:
+                continue
+            guild = self.bot.get_guild(guild_id)
+            text_channel = await guild.fetch_channel(channel_id)
+            linked_message = await text_channel.fetch_message(message_id)
+            try:
+                contents = linked_message.content
+                escaped_contents = discord.utils.escape_markdown(contents)
+                await ctx.respond(escaped_contents)
+            except:
+                await ctx.respond("Message has no contents")
 
     @commands.slash_command(name="modaltest")
     async def modaltest(self, ctx):
